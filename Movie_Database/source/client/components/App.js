@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import UserActions from '../actions/UserActions'
 import UserStore from '../stores/UserStore'
 
 import Navbar from './Navbar'
@@ -21,36 +20,11 @@ export default class App extends React.Component {
 
   componentDidMount () {
     UserStore.listen(this.onChange)
-    UserActions.loginUser()
   }
 
   componentWillUnmount () {
     UserStore.unlisten(this.onChange)
   }
-
-  // TEMP LOGIN FUNCTION TO BE REMOVED ON PART 3
-  // LOGIN_DEFAULT_USER () {
-  //   let request = {
-  //     url: '/user/login',
-  //     method: 'post',
-  //     data: JSON.stringify({username: 'admin', password: '11'}),
-  //     contentType: 'application/json'
-  //   }
-  //
-  //   $.ajax(request)
-  //     .done((userId) => {
-  //       this.setState({
-  //         loggedInUserId: userId
-  //       })
-  //     })
-  //     .fail((err) => {  //  Redirect to user login on part 3
-  //       console.log('UserMenu: err', err)
-  //       this.setState({
-  //         loggedInUserId: '',
-  //         message: err.responseJSON.message
-  //       })
-  //     })
-  // }
 
   logoutUser () {
     let request = {
@@ -72,7 +46,6 @@ export default class App extends React.Component {
   }
 
   render () {
-
     // console.log('App.js')
     // console.log(this.props.children)
     // console.log('App.js')

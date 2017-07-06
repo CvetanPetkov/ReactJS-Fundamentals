@@ -1,4 +1,4 @@
-import react from 'react'
+import React from 'react'
 
 import UserRatedMoviesPanel from './UserRatedMoviesPanel'
 
@@ -35,7 +35,7 @@ export default class UserRatedMovies extends React.Component {
             {this.state.showRatedMoviesPanel ? 'Hide' : 'Rated'}
           </a>
         </div>
-        {this.state.showRatedMoviesPanel ? <UserRatedMoviesPanel movies={this.props.votes}/> : null}
+        {this.state.showRatedMoviesPanel ? <UserRatedMoviesPanel movies={this.props.votes} /> : null}
       </div>
     )
   }

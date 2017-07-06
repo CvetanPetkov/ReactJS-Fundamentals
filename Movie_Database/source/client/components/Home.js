@@ -1,7 +1,7 @@
 import React from 'react'
 
-import HomeActions from '../actions/HomeActions'
-import HomeStore from '../stores/HomeStore'
+import MovieAction from '../actions/MovieActions'
+import MovieStore from '../stores/MovieStore'
 
 import MovieCard from './sub-components/MovieCard'
 
@@ -9,7 +9,7 @@ export default class Home extends React.Component {
   constructor (props) {
     super(props)
 
-    this.state = HomeStore.getState()
+    this.state = MovieStore.getState()
 
     this.onChange = this.onChange.bind(this)
   }
@@ -19,21 +19,22 @@ export default class Home extends React.Component {
   }
 
   componentDidMount () {
-    HomeStore.listen(this.onChange)
+    MovieStore.listen(this.onChange)
 
-    HomeActions.getTopTenMovies()
+    MovieAction.getTopTenMovies()
   }
 
   componentWillUnmount () {
-    HomeStore.unlisten(this.onChange)
+    MovieStore.unlisten(this.onChange)
   }
 
   render () {
     let movies = this.state.topTenMovies.map((movie, index) => {
       return (
-        <MovieCard key={movie._id}
-                   movie={movie}
-                   index={index} />
+        <MovieCard
+          key={movie._id}
+          movie={movie}
+          index={index} />
       )
     })
 

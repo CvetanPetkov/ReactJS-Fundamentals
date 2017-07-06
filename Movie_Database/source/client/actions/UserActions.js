@@ -3,17 +3,36 @@ import alt from '../alt'
 class UserActions {
   constructor () {
     this.generateActions(
+      'registerUserSuccess',
+      'registerUserFail',
       'loginUserSuccess',
       'loginUserFail',
       'logoutUserSuccess'
     )
   }
 
-  loginUser () {
+  registerUser (data) {
+    let request = {
+      url: '/user/register',
+      method: 'post',
+      data: JSON.stringify(data),
+      contentType: 'application/json'
+    }
+    $.ajax(request)
+      .done(() => this.registerUserSuccess)
+      .fail((err) => {
+        console.log('error', err)
+        this.registerUserFail(err.responseJSON.message)
+      })
+
+    return true
+  }
+
+  loginUser (data) {
     let request = {
       url: '/user/login',
       method: 'post',
-      data: JSON.stringify({username: 'admin', password: '11'}),
+      data: JSON.stringify(data),
       contentType: 'application/json'
     }
 
@@ -21,9 +40,8 @@ class UserActions {
       .done((data) => {
         this.loginUserSuccess(data)
       })
-      .fail((err) => {  //  Redirect to user login on part 3
-        console.log('UserMenu: err', err)
-        this.loginUserFail(err)
+      .fail((err) => {
+        this.loginUserFail(err.responseJSON)
       })
 
     return true

@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-import FooterActions from '../actions/FooterActions'
-import FooterStore from '../stores/FooterStore'
+import MovieActions from '../actions/MovieActions'
+import MovieStore from '../stores/MovieStore'
 
 export default class Footer extends React.Component {
   constructor (props) {
     super(props)
 
-    this.state = FooterStore.getState()
+    this.state = MovieStore.getState()
 
     this.onChange = this.onChange.bind(this)
   }
@@ -18,14 +18,14 @@ export default class Footer extends React.Component {
   }
 
   componentDidMount () {
-    FooterStore.listen(this.onChange)
+    MovieStore.listen(this.onChange)
 
-    FooterActions.getFiveRecentMovies()
-    this.interval = setInterval(() => FooterActions.getFiveRecentMovies(), 5000)
+    MovieActions.getFiveRecentMovies()
+    this.interval = setInterval(() => MovieActions.getFiveRecentMovies(), 5000)
   }
 
   componentWillUnmount () {
-    FooterStore.unlisten(this.onChange)
+    MovieStore.unlisten(this.onChange)
     clearInterval(this.interval)
   }
 
