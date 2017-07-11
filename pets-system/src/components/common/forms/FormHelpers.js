@@ -20,6 +20,17 @@ class FormHelpers {
 
     return firstError
   }
+
+  static handleCommentChange (e, stateField) {
+    const target = e.target
+    const field = target.name
+    const value = target.value
+
+    const state = this.state
+    state[field] = value
+
+    this.setState({[stateField]: value})
+  }
 }
 
 export default FormHelpers

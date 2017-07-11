@@ -41,8 +41,9 @@ class Navbar extends React.Component {
             <Link to='/pets/add'>
               Add Pet
             </Link>
+            <span className='navbar-spacer' />
             <span>
-              {this.state.username}
+              Hello: {this.state.username}&nbsp;&nbsp;&nbsp;
             </span>
 
             <Link to='/users/logout'>

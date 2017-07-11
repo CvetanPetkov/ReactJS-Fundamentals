@@ -4,7 +4,7 @@ import Auth from '../../users/Auth'
 
 const PrivateRoute = ({component: Component, ...rest}) => (
   <Route {...rest} render={props => (
-    Auth.isUserAuthenticated ? (
+    Auth.isUserAuthenticated() ? (
       <Component {...props} />
     ) : (
       <Redirect to={{

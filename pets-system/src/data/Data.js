@@ -39,6 +39,17 @@ class Data {
     return window.fetch(`${baseUrl}${url}`, options)
       .then(handleJsonResponse)
   }
+
+  static postComment (url, data, authenticated) {
+    let options = getOptions()
+    options.method = 'post'
+    options.body = JSON.stringify({'message': data})
+
+    applyAuthorizationHeader(options, authenticated)
+
+    return window.fetch(`${baseUrl}${url}`, options)
+      .then(handleJsonResponse)
+  }
 }
 
 export default Data

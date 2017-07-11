@@ -1,7 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import queryString from 'query-string'
 import PetActions from '../../actions/PetActions'
 import PetStore from '../../stores/PetStore'
+import petsSeed from '../../data/petsSeed'
 
 class ListPetsPage extends React.Component {
   constructor (props) {
@@ -16,10 +18,16 @@ class ListPetsPage extends React.Component {
     }
 
     this.handlePetsFetch = this.handlePetsFetch.bind(this)
+    this.handlePetsSeed = this.handlePetsSeed.bind(this)
 
     PetStore.on(  //  attach listener to call when PetStore emits
       PetStore.eventTypes.PETS_FETCHED,
       this.handlePetsFetch
+    )
+
+    PetStore.on(
+      PetStore.eventTypes.PET_SEEDED,
+      this.handlePetsSeed
     )
   }
 
@@ -31,6 +39,11 @@ class ListPetsPage extends React.Component {
     PetStore.removeListener(
       PetStore.eventTypes.PETS_FETCHED,
       this.handlePetsFetch
+    )
+
+    PetStore.removeListener(
+      PetStore.eventTypes.PET_SEEDED,
+      this.handlePetsSeed
     )
   }
 
@@ -72,28 +85,48 @@ class ListPetsPage extends React.Component {
     PetActions.all(page)
   }
 
+  seedPets () {
+    PetActions.seedPets(petsSeed)
+  }
+
+  handlePetsSeed (data) {
+    PetActions.all(this.state.page)
+  }
+
   render () {
     let pets = 'No pets available'
 
     if (this.state.pets.length > 0) {
       pets = this.state.pets.map((pet) => (
-        <div key={pet.id}>
-          {pet.id} - {pet.name}
+        <div key={pet.id} className='pet-card-container'>
           <img src={pet.image} alt='pet' />
+          <p>Name: {pet.name}</p>
+          <p>Type: {pet.type}</p>
+          <Link to={`/pets/details/${pet.id}`}>See more details</Link>
         </div>
       ))
     }
 
-    return (
-      <div>
-        <h1>All Pets</h1>
-        {pets}
-        <div>
-          <button onClick={this.goToPrevPage.bind(this)}>Prev</button>
-          <button onClick={this.goToNextPage.bind(this)}>Next</button>
+    if (Array.isArray(pets)) {
+      return (
+        <div className='pets-outer'>
+          <h1>All Pets</h1>
+          {pets}
+          <div className='paging-buttons'>
+            <button onClick={this.goToPrevPage.bind(this)}>Prev</button>
+            <button onClick={this.goToNextPage.bind(this)}>Next</button>
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <h1>
+          {pets} =>&nbsp;&nbsp;&nbsp;
+          <button className='seed-btn' onClick={this.seedPets.bind(this)}>seed pets data</button>
+          <small>&nbsp;&nbsp;you have to register and login first</small>
+        </h1>
+      )
+    }
   }
 }
 
